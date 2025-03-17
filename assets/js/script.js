@@ -1,51 +1,38 @@
-'use strict';
+"use strict";
 
 /**
- * element toggle function
+ * Toggles the "active" class on the given element.
+ * @param {HTMLElement} elem - The element to toggle.
  */
-
-const elemToggleFunc = function (elem) { elem.classList.toggle("active"); }
-
-
+const toggleElement = (elem) => elem.classList.toggle("active");
 
 /**
- * navbar toggle
+ * Navbar toggle functionality.
  */
+document.addEventListener("DOMContentLoaded", () => {
+  const navbar = document.querySelector("[data-navbar]");
+  const overlay = document.querySelector("[data-overlay]");
+  const navCloseBtn = document.querySelector("[data-nav-close-btn]");
+  const navOpenBtn = document.querySelector("[data-nav-open-btn]");
+  const navbarLinks = document.querySelectorAll("[data-nav-link]");
+  
+  // Elements that trigger the navbar toggle
+  const toggleElements = [overlay, navCloseBtn, navOpenBtn, ...navbarLinks];
 
-const navbar = document.querySelector("[data-navbar]");
-const overlay = document.querySelector("[data-overlay]");
-const navCloseBtn = document.querySelector("[data-nav-close-btn]");
-const navOpenBtn = document.querySelector("[data-nav-open-btn]");
-const navbarLinks = document.querySelectorAll("[data-nav-link]");
+  // Add event listeners to toggle navbar and overlay
+  toggleElements.forEach((element) =>
+    element.addEventListener("click", () => {
+      toggleElement(navbar);
+      toggleElement(overlay);
+    })
+  );
 
-const navElemArr = [overlay, navCloseBtn, navOpenBtn];
-
-/**
- * close navbar when click on any navbar link
- */
-
-for (let i = 0; i < navbarLinks.length; i++) { navElemArr.push(navbarLinks[i]); }
-
-/**
- * addd event on all elements for toggling navbar
- */
-
-for (let i = 0; i < navElemArr.length; i++) {
-  navElemArr[i].addEventListener("click", function () {
-    elemToggleFunc(navbar);
-    elemToggleFunc(overlay);
+  /**
+   * Header active state on scroll.
+   */
+  const header = document.querySelector("[data-header]");
+  
+  window.addEventListener("scroll", () => {
+    header.classList.toggle("active", window.scrollY >= 400);
   });
-}
-
-
-
-/**
- * header active state
- */
-
-const header = document.querySelector("[data-header]");
-
-window.addEventListener("scroll", function () {
-  window.scrollY >= 400 ? header.classList.add("active")
-    : header.classList.remove("active");
-}); 
+});
